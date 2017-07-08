@@ -27,14 +27,15 @@ namespace HandGames
 #pragma warning restore CS1998 // Async method lacks 'await' operators and will run synchronously
         {
             Player player;
-            if (Game.players.All(v => v.lost))
+            if (Game.players.Count(v => v.lost) == 1)
             {
-                Bridge.Html5.Global.Alert("All players lost.");
+                Bridge.Html5.Global.Alert("A player has won.");
+                Bridge.Html5.Window.Close();
                 return;
             }
             do
             {
-                player = Game.players[Game.turnIdx = (Game.players.IndexOf(this) + 1) % Game.players.Count];
+                player = Game.players[Game.turnIdx = (Game.turnIdx + 1) % Game.players.Count];
             } while (player.lost);
             player.OnTurnStart();
         }
