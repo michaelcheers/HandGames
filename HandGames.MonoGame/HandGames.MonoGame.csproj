@@ -1,0 +1,148 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{9E5AA5BE-DF8A-4C78-9A1F-CD71EDB32389}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>HandGames.MonoGame</RootNamespace>
+    <AssemblyName>HandGames.MonoGame</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;WINDOWS</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="MonoGame.Framework, Version=3.6.0.1625, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MonoGame.Framework.WindowsDX.3.6.0.1625\lib\net40\MonoGame.Framework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\HandGames\AIPlayer.cs">
+      <Link>AIPlayer.cs</Link>
+    </Compile>
+    <Compile Include="..\HandGames\Card.cs">
+      <Link>Card.cs</Link>
+    </Compile>
+    <Compile Include="..\HandGames\CardPool.cs">
+      <Link>CardPool.cs</Link>
+    </Compile>
+    <Compile Include="..\HandGames\Cards\BaronCard.cs">
+      <Link>BaronCard.cs</Link>
+    </Compile>
+    <Compile Include="..\HandGames\Cards\CountessCard.cs">
+      <Link>CountessCard.cs</Link>
+    </Compile>
+    <Compile Include="..\HandGames\Cards\GuardCard.cs">
+      <Link>GuardCard.cs</Link>
+    </Compile>
+    <Compile Include="..\HandGames\Cards\HandmaidCard.cs">
+      <Link>HandmaidCard.cs</Link>
+    </Compile>
+    <Compile Include="..\HandGames\Cards\KingCard.cs">
+      <Link>KingCard.cs</Link>
+    </Compile>
+    <Compile Include="..\HandGames\Cards\LoveLetterCard.cs">
+      <Link>LoveLetterCard.cs</Link>
+    </Compile>
+    <Compile Include="..\HandGames\Cards\PriestCard.cs">
+      <Link>PriestCard.cs</Link>
+    </Compile>
+    <Compile Include="..\HandGames\Cards\PrinceCard.cs">
+      <Link>PrinceCard.cs</Link>
+    </Compile>
+    <Compile Include="..\HandGames\Cards\PrincessCard.cs">
+      <Link>PrincessCard.cs</Link>
+    </Compile>
+    <Compile Include="..\HandGames\Deck.cs">
+      <Link>Deck.cs</Link>
+    </Compile>
+    <Compile Include="..\HandGames\DiscardPile.cs">
+      <Link>DiscardPile.cs</Link>
+    </Compile>
+    <Compile Include="..\HandGames\DrawInfo.cs">
+      <Link>DrawInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\HandGames\Hand.cs">
+      <Link>Hand.cs</Link>
+    </Compile>
+    <Compile Include="..\HandGames\HandGame.cs">
+      <Link>HandGame.cs</Link>
+    </Compile>
+    <Compile Include="..\HandGames\LocalPlayer.cs">
+      <Link>LocalPlayer.cs</Link>
+    </Compile>
+    <Compile Include="..\HandGames\LoveLetterGame.cs">
+      <Link>LoveLetterGame.cs</Link>
+    </Compile>
+    <Compile Include="..\HandGames\LRCEngine\InputState.cs">
+      <Link>InputState.cs</Link>
+    </Compile>
+    <Compile Include="..\HandGames\LRCEngine\UIContainer.cs">
+      <Link>UIContainer.cs</Link>
+    </Compile>
+    <Compile Include="..\HandGames\LRCEngine\Vectangle.cs">
+      <Link>Vectangle.cs</Link>
+    </Compile>
+    <Compile Include="..\HandGames\Player.cs">
+      <Link>Player.cs</Link>
+    </Compile>
+    <Compile Include="..\HandGames\Pointer.cs">
+      <Link>Pointer.cs</Link>
+    </Compile>
+    <Compile Include="..\HandGames\Program.cs">
+      <Link>Program.cs</Link>
+    </Compile>
+    <Compile Include="..\HandGames\RealCardPool.cs">
+      <Link>RealCardPool.cs</Link>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="Content\Arial.spritefont" />
+    <None Include="Content\Choice Text.spritefont" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\Love Letter\1Guard.png" />
+    <Content Include="Content\Love Letter\2Priest.png" />
+    <Content Include="Content\Love Letter\3Baron.png" />
+    <Content Include="Content\Love Letter\4Handmaid.png" />
+    <Content Include="Content\Love Letter\5Prince.png" />
+    <Content Include="Content\Love Letter\6King.png" />
+    <Content Include="Content\Love Letter\7Countess.png" />
+    <Content Include="Content\Love Letter\8Princess.png" />
+    <Content Include="Content\Love Letter\cardback.png" />
+    <Content Include="Content\white.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
