@@ -17,10 +17,10 @@ namespace HandGames
 
         public async Task Lose ()
         {
+            lost = true;
             var notLostPlayers = Game.players.Where(v => !v.lost);
             if (notLostPlayers.Count() == 1)
                 Game.won = notLostPlayers.First();
-            lost = true;
         }
 
 #pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously
@@ -28,11 +28,6 @@ namespace HandGames
 #pragma warning restore CS1998 // Async method lacks 'await' operators and will run synchronously
         {
             Player player;
-            if (Game.players.Count(v => v.lost) == 1)
-            {
-                Game.won = Game.players.First(v => !v.lost);
-                return;
-            }
             do
             {
                 player = Game.players[Game.turnIdx = (Game.turnIdx + 1) % Game.players.Count];
