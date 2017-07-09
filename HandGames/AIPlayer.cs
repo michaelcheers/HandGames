@@ -30,7 +30,13 @@ namespace HandGames
             var i = l.First();
             await i.Play();
         }
+#pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously
         public override async Task<Player> TargetPlayer() =>
+#pragma warning restore CS1998 // Async method lacks 'await' operators and will run synchronously
             Game.players.OrderBy(v => v.IsHandmaided).ThenBy(v => v is AIPlayer).ToList()[0];
+
+#pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously
+        public override async Task LookAtHand(Player player) { }
+#pragma warning restore CS1998 // Async method lacks 'await' operators and will run synchronously
     }
 }

@@ -103,6 +103,9 @@
     <Compile Include="..\HandGames\LoveLetterGame.cs">
       <Link>LoveLetterGame.cs</Link>
     </Compile>
+    <Compile Include="..\HandGames\MiddleTable.cs">
+      <Link>MiddleTable.cs</Link>
+    </Compile>
     <Compile Include="..\HandGames\Player.cs">
       <Link>Player.cs</Link>
     </Compile>

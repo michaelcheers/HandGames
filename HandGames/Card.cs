@@ -14,9 +14,12 @@ namespace HandGames
         public Texture2D image;
         public bool Highlighted;
         public Rectangle? oldLoc;
+        public Player Caster;
 
         public abstract Task OnPlay();
+#pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously
         public virtual async Task OnDiscard ()
+#pragma warning restore CS1998 // Async method lacks 'await' operators and will run synchronously
         {
 
         }
@@ -55,8 +58,11 @@ namespace HandGames
 
         public virtual async Task Play ()
         {
+            Caster = ((Hand)@in).player;
+            await MoveCardTo(Caster.tableMiddle);
             await OnPlay();
             await MoveCardTo(@in.Game.discardPile);
+            Caster = null;
         }
 
         public async Task MoveCardTo (CardPool to)

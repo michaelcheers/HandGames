@@ -67,7 +67,7 @@ namespace HandGames
             discardPile = new DiscardPile(this);
             // TODO: use this.Content to load your game content here
             font = Content.Load<SpriteFont>("Arial");
-            choiceFont = Content.Load<SpriteFont>("Choice Text");
+            largeFont = Content.Load<SpriteFont>("Choice Text");
             rectangle = Content.Load<Texture2D>("white");
             cardback = Content.Load<Texture2D>($"{ContentFolderName}/cardback");
             players.Add(ui = new LocalPlayer(this));
@@ -124,7 +124,7 @@ namespace HandGames
         public Texture2D rectangle;
         public Deck deck;
         public LocalPlayer ui;
-        public SpriteFont font, choiceFont;
+        public SpriteFont font, largeFont;
 
         /// <summary>
         /// UnloadContent will be called once per game and is the place to unload
@@ -142,8 +142,14 @@ namespace HandGames
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-            // TODO: Add your update logic here
-            bool _holdingDown = Mouse.GetState().LeftButton == ButtonState.Pressed;
+#if WINDOWS
+            if (Keyboard.GetState().IsKeyDown(Microsoft.Xna.Framework.Input.Keys.Escape))
+            {
+                Exit();
+            }
+#endif
+        // TODO: Add your update logic here
+        bool _holdingDown = Mouse.GetState().LeftButton == ButtonState.Pressed;
             LastMouseDown = _holdingDown && !holdingDown;
             holdingDown = _holdingDown;
             if (won == null)
@@ -174,8 +180,8 @@ namespace HandGames
             else
             {
                 string text = $"{won.GetType().Name} has won.";
-                var measure = font.MeasureString(text);
-                spriteBatch.DrawString(font, text, new Vector2(y: (GraphicsDevice.Viewport.Height - measure.Y) / 2, x: (GraphicsDevice.Viewport.Width - measure.X) / 2), Color.Red);
+                var measure = largeFont.MeasureString(text);
+                spriteBatch.DrawString(largeFont, text, new Vector2(y: (GraphicsDevice.Viewport.Height - measure.Y) / 2, x: (GraphicsDevice.Viewport.Width - measure.X) / 2), Color.Red);
             }
             spriteBatch.End();
 

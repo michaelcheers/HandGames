@@ -12,7 +12,7 @@ namespace HandGames.Cards
 
         public override async Task OnPlay()
         {
-            await ((Hand)@in).player.LookAtCards((await ((Hand)@in).player.TargetPlayer()).Hand);
+            await Caster.LookAtHand(await Caster.TargetPlayer());
         }
     }
 }

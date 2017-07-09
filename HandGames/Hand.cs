@@ -18,7 +18,7 @@ namespace HandGames
             this.player = player;
         }
 
-        public override DrawInfo GetDrawingPosition(Card card) =>
+        public override DrawInfo GetDrawingPosition(Card card) => 
             new DrawInfo
             {
                 DrawPosition = new Rectangle(
@@ -27,7 +27,7 @@ namespace HandGames
                     cardWidth,
                     cardHeight),
                 Permissions = DrawInfo.DrawPermission.Drawable,
-                ShowCardBack = Game.ui != player
+                ShowCardBack = !(Game.ui == player ^ Game.ui.handsViewable.Contains(player))
             };
     }
 }

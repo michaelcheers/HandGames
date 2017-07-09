@@ -21,7 +21,8 @@ namespace HandGames
         {
             ChooseAPlayer = 1,
             NameACard = 2,
-            ViewCards = 6
+            ViewCards = 6,
+            PriestAbility = 8
         }
         AlertScreen? CurrentAlertScreen;
 
@@ -43,7 +44,8 @@ namespace HandGames
         {
             {AlertScreen.NameACard, "Choose a card" },
             {AlertScreen.ChooseAPlayer, "Choose a player" },
-            {AlertScreen.ViewCards, "You have 2 seconds to look at these cards." }
+            {AlertScreen.ViewCards, "You have 2 seconds to look at these cards." },
+            {AlertScreen.PriestAbility, "You have 2 seconds to look at this hand." }
         };
 
         public bool inLock;
@@ -112,13 +114,13 @@ namespace HandGames
                             }
                         break;
                     case AlertScreen.NameACard:
-                        for (int n = 0; n < Game.cardImages.Count; n++)
+                        for (int n = 0; n < cardsToDraw.Count; n++)
                             if (_getCardPosition(n).Contains(state.X, state.Y))
                             {
                                 if (state.LeftButton == ButtonState.Pressed)
                                 {
-                                    if (Game.cardImages[n] != null && !targetCard.Task.IsCompleted)
-                                        targetCard.SetResult(Game.cardImages[n]);
+                                    if (cardsToDraw[n] != null && !targetCard.Task.IsCompleted)
+                                        targetCard.SetResult(cardsToDraw[n]);
                                     break;
                                 }
                             }
@@ -132,30 +134,37 @@ namespace HandGames
         static readonly Dictionary<AlertScreen, Action<LocalPlayer>> highlights = new Dictionary<AlertScreen, Action<LocalPlayer>>
         {
             {AlertScreen.ChooseAPlayer, @this => @this.DrawPlayers()},
-            {AlertScreen.NameACard, @this => @this.DrawCards() }
+            {AlertScreen.NameACard, @this => @this.DrawCards() },
+            {AlertScreen.PriestAbility, @this => @this.DrawHands() }
         };
+
+        public override async Task LookAtHand(Player other)
+        {
+            handsViewable.Add(other);
+            await Task.Delay(2000);
+            handsViewable.Remove(other);
+        }
 
         public void Draw ()
         {
             Game.spriteBatch.Draw(Game.cardback, new Rectangle(Game.GraphicsDevice.Viewport.Width - 150 - Deck.cardWidth - 20, Game.GraphicsDevice.Viewport.Height - Deck.cardHeight, Deck.cardWidth, Deck.cardHeight), Color.Wheat);
             foreach (var card in new List<Card>(Game.discardPile.cards))
                 card.Draw();
-            DrawHands();
             foreach (var run in highlights)
-                if ((run.Key | CurrentAlertScreen) == 0)
+                if ((run.Key & CurrentAlertScreen) == 0)
                     run.Value(this);
 
             if (CurrentAlertScreen != null)
             {
                 string displayedText = messages[(AlertScreen)CurrentAlertScreen];
                 Game.spriteBatch.Draw(Game.rectangle, Game.GraphicsDevice.Viewport.Bounds, new Color(Color.Black, .9f));
-                Vector2 textMetrics = Game.choiceFont.MeasureString(displayedText);
+                Vector2 textMetrics = Game.largeFont.MeasureString(displayedText);
                 Vector2 textLoc = - textMetrics / 2;
                 Game.spriteBatch.Draw(Game.rectangle, new Rectangle(textLoc.ToPoint() + (Game.GraphicsDevice.Viewport.Bounds.Size.ToVector2() / 2).ToPoint(), textMetrics.ToPoint()), Color.BlueViolet);
-                Game.spriteBatch.DrawString(Game.choiceFont, displayedText, textLoc + Game.GraphicsDevice.Viewport.Bounds.Size.ToVector2() / 2, Color.Black);
+                Game.spriteBatch.DrawString(Game.largeFont, displayedText, textLoc + Game.GraphicsDevice.Viewport.Bounds.Size.ToVector2() / 2, Color.Black);
             }
             foreach (var run in highlights)
-                if ((run.Key | CurrentAlertScreen) != 0)
+                if ((run.Key & CurrentAlertScreen) != 0)
                     run.Value(this);
         }
 
@@ -165,6 +174,8 @@ namespace HandGames
             {
                 var player = Game.players[n];
                 foreach (var card in new List<Card>(player.Hand.cards))
+                    card.Draw();
+                foreach (var card in new List<Card>(player.tableMiddle.cards))
                     card.Draw();
             }
         }

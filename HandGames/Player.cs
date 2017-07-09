@@ -13,6 +13,7 @@ namespace HandGames
         public HandGame Game;
         public bool lost;
         public bool IsHandmaided;
+        public MiddleTable tableMiddle;
 
         public void Lose ()
         {
@@ -42,10 +43,13 @@ namespace HandGames
         public abstract Task<Texture2D> TargetCard();
         public abstract Task<Player> TargetPlayer();
         public abstract Task LookAtCards(RealCardPool cardPool);
+        public abstract Task LookAtHand(Player player);
+        public List<Player> handsViewable = new List<Player>();
         
         public Player (HandGame Game)
         {
             Hand = new Hand(this.Game = Game, this);
+            tableMiddle = new MiddleTable(Game, this);
         }
 
         public virtual async void OnTurnStart()

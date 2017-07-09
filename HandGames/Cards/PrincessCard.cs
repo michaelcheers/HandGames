@@ -17,7 +17,9 @@ namespace HandGames.Cards
             ((Hand)@in).player.Lose();
         }
 
+#pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously
         public override async Task OnPlay()
+#pragma warning restore CS1998 // Async method lacks 'await' operators and will run synchronously
         {
         }
     }
