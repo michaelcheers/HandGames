@@ -14,7 +14,7 @@ namespace HandGames.Cards
         public override async Task OnDiscard()
 #pragma warning restore CS1998 // Async method lacks 'await' operators and will run synchronously
         {
-            ((Hand)@in).player.Lose();
+            await ((Hand)@in).player.Lose();
         }
 
 #pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously

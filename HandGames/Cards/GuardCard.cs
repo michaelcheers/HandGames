@@ -15,7 +15,7 @@ namespace HandGames.Cards
             var player = await ((Hand)@in).player.TargetPlayer();
             var targettedCard = await ((Hand)@in).player.TargetCard(); //Workaround for #2918.
             if (player.Hand.cards[0].image == targettedCard)
-                player.Lose();
+                await player.Lose();
         }
     }
 }

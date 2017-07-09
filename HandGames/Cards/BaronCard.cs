@@ -21,10 +21,10 @@ namespace HandGames.Cards
             switch (aCompare.CompareTo(bCompare))
             {
                 case -1: // Good for me
-                    other.Lose();
+                    await other.Lose();
                     break;
                 case 1: // Bad for me
-                    me.Lose();
+                    await me.Lose();
                     break;
             }
         }

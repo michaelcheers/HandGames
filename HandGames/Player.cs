@@ -15,7 +15,7 @@ namespace HandGames
         public bool IsHandmaided;
         public MiddleTable tableMiddle;
 
-        public void Lose ()
+        public async Task Lose ()
         {
             var notLostPlayers = Game.players.Where(v => !v.lost);
             if (notLostPlayers.Count() == 1)
