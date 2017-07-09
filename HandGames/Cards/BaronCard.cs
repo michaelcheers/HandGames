@@ -13,19 +13,18 @@ namespace HandGames.Cards
         public override async Task OnPlay()
         {
             Player
-                me = ((Hand)@in).player;
-            var other = await ((Hand)@in).player.TargetPlayer(); //Workaround for #2931
-            await me.LookAtCards(other.Hand);
-            await other.LookAtCards(me.Hand);
+                me = Caster;
+            var other = await Caster.TargetPlayer(); //Workaround for #2931
+            await Caster.LookAtHand(other);
             var aCompare = ((LoveLetterCard)(other.Hand.cards.First(v => v != this))).Value;
             var bCompare = ((LoveLetterCard)(me.Hand.cards.First(v => v != this))).Value; //Workaround for #2918.
             switch (aCompare.CompareTo(bCompare))
             {
                 case -1: // Good for me
-                    other.Lose();
+                    await other.Lose();
                     break;
                 case 1: // Bad for me
-                    me.Lose();
+                    await me.Lose();
                     break;
             }
         }
