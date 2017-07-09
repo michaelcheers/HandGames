@@ -23,9 +23,10 @@ namespace HandGames
 #else
             Dictionary
 #endif
-            <string, int> cards { get; }
+            <string, int> cards
+        { get; }
         public List<Texture2D> cardImages;
-        
+
         public HandGame()
         {
             graphics = new GraphicsDeviceManager(this)
@@ -89,25 +90,15 @@ namespace HandGames
                 }
             }
             while (false);
-            ShuffleDeck();
-            players.ForEach(player =>
-            {
-                for (int i = 0; i < 1; i++)
-                {
-                    var topCard = TopCard();
-                    deck.Remove(topCard);
-                    player.Hand.Add(topCard);
-                }
-            });
-            players[turnIdx].OnTurnStart();
+            StartNewGame();
         }
 
         public Card TopCard() => deck.cards[0];
 
         public int turnIdx;
         Random rnd = new Random();
-        
-        void ShuffleDeck ()
+
+        void ShuffleDeck()
         {
 
             int n = deck.cards.Count;
@@ -119,6 +110,21 @@ namespace HandGames
                 deck.cards[k] = deck.cards[n];
                 deck.cards[n] = value;
             }
+        }
+
+        public void StartNewGame()
+        {
+            ShuffleDeck();
+            players.ForEach(player =>
+            {
+                for (int i = 0; i < 1; i++)
+                {
+                    var topCard = TopCard();
+                    deck.Remove(topCard);
+                    player.Hand.Add(topCard);
+                }
+            });
+            players[turnIdx].OnTurnStart();
         }
 
         public Texture2D rectangle;
@@ -148,8 +154,8 @@ namespace HandGames
                 Exit();
             }
 #endif
-        // TODO: Add your update logic here
-        bool _holdingDown = Mouse.GetState().LeftButton == ButtonState.Pressed;
+            // TODO: Add your update logic here
+            bool _holdingDown = Mouse.GetState().LeftButton == ButtonState.Pressed;
             LastMouseDown = _holdingDown && !holdingDown;
             holdingDown = _holdingDown;
             if (won == null)
@@ -175,9 +181,8 @@ namespace HandGames
 #else
             spriteBatch.Begin();
 #endif
-            if (won == null)
-                ui.Draw();
-            else
+            ui.Draw();
+            if (won != null)
             {
                 string text = $"{won.GetType().Name} has won.";
                 var measure = largeFont.MeasureString(text);
