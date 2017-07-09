@@ -13,7 +13,7 @@ namespace HandGames
         public CardPool @in;
         public Texture2D image;
         public bool Highlighted;
-        public Rectangle? oldLoc;
+        public DrawInfo? oldLoc;
         public Player Caster;
 
         public abstract Task OnPlay();
@@ -36,12 +36,14 @@ namespace HandGames
             Rectangle rect = (Rectangle)newLoc;
             if (oldLoc != null)
             {
-                Rectangle oldLocReal = (Rectangle)oldLoc;
+                Rectangle oldLocReal = (Rectangle)oldLoc.Value.DrawPosition;
                 float glideN = ((float)(DateTime.Now - (DateTime)orgDate).Ticks / glideTime.Ticks);
                 rect = new Rectangle(
                     Vector2.Lerp(oldLocReal.Location.ToVector2(), rect.Location.ToVector2(), glideN).ToPoint(),
                     Vector2.Lerp(oldLocReal.Size.ToVector2(), rect.Size.ToVector2(), glideN).ToPoint());
             }
+            if (!((oldLoc?.Permissions == DrawInfo.DrawPermission.Drawable) || drawInfo.Permissions == DrawInfo.DrawPermission.Drawable))
+                return;
             if (Highlighted)
             {
                 Rectangle highlightRectangle = new Rectangle(rect.X - 1, rect.Y - 1, rect.Width + 1, rect.Height + 1);
@@ -60,8 +62,9 @@ namespace HandGames
         {
             Caster = ((Hand)@in).player;
             await MoveCardTo(Caster.tableMiddle);
+            int oldGameId = @in.Game.gameId;
             await OnPlay();
-            await MoveCardTo(@in.Game.discardPile);
+            await MoveCardTo(oldGameId == @in.Game.gameId ? (RealCardPool)@in.Game.discardPile : @in.Game.deck);
             Caster = null;
         }
 
@@ -75,7 +78,7 @@ namespace HandGames
             to.Add(this);
             if (!(oldPos.Permissions == DrawInfo.DrawPermission.Undrawable || to.GetDrawingPosition(this).Permissions == DrawInfo.DrawPermission.Undrawable))
             {
-                oldLoc = oldPos.DrawPosition;
+                oldLoc = oldPos;
                 orgDate = DateTime.Now;
                 from = @in;
                 animationDone = new TaskCompletionSource<object>();

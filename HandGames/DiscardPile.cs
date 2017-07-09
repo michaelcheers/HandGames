@@ -20,7 +20,7 @@ namespace HandGames
             new DrawInfo
             {
                 DrawPosition = new Rectangle(Game.GraphicsDevice.Viewport.Width - 100 - cardWidth - 10, (Game.GraphicsDevice.Viewport.Height - cardHeight) / 2, cardWidth, cardHeight),
-                Permissions = cards[cards.Count - 1] == card ? DrawInfo.DrawPermission.Drawable : DrawInfo.DrawPermission.Animatable
+                Permissions = cards.LastOrDefault(v => v.oldLoc == null) == card ? DrawInfo.DrawPermission.Drawable : DrawInfo.DrawPermission.Animatable
             };
     }
 }

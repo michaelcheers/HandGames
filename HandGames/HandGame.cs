@@ -124,9 +124,11 @@ namespace HandGames
                     player.Hand.Add(topCard);
                 }
             });
-            players[turnIdx].OnTurnStart();
+            players[turnIdx = 0].OnTurnStart();
+            gameId++;
         }
 
+        public int gameId = -1;
         public Texture2D rectangle;
         public Deck deck;
         public LocalPlayer ui;

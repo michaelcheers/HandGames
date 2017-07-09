@@ -22,8 +22,21 @@ namespace HandGames
             if (notLostPlayers.Count() == 1)
             {
                 await (Game.won = notLostPlayers.First()).Lose();
+                foreach (var player in Game.players)
+                    foreach (var card in new List<Card>(player.Hand.cards.Concat(player.tableMiddle.cards)))
+                        await card.MoveCardTo(Game.discardPile);
+                List<Card> @new = new List<Card>(Game.discardPile.cards);
+                @new.Reverse();
+                foreach (var card in @new)
+                    await card.MoveCardTo(Game.deck);
+                Game.StartNewGame();
+                Game.players.ForEach(v => v.lost = false);
+                Game.won.affectionCounters++;
+                Game.won = null;
             }
         }
+
+        public int affectionCounters;
 
 #pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously
         public async Task EndTurn()

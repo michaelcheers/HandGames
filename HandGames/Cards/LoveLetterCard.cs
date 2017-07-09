@@ -13,8 +13,10 @@ namespace HandGames.Cards
         public override async Task Play()
         {
             var player = ((Hand)@in).player;
+            int oldGameId = @in.Game.gameId;
             await base.Play();
-            await player.EndTurn();
+            if (oldGameId == @in.Game.gameId)
+                await player.EndTurn();
         }
     }
 }
