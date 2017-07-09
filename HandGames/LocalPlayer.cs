@@ -49,7 +49,7 @@ namespace HandGames
         public async override Task<Texture2D> TargetCard()
         {
             CurrentAlertScreen = AlertScreen.NameACard;
-            cardsToDraw = Game.cardImages;
+            cardsToDraw = Game.cardImages.GetRange(1, Game.cardImages.Count - 1);
             var r = await (targetCard = new TaskCompletionSource<Texture2D>()).Task;
             targetCard = null;
             CurrentAlertScreen = null;
@@ -63,15 +63,18 @@ namespace HandGames
                 return;
             if (CurrentAlertScreen == null)
             {
-                var mouseState = Mouse.GetState();
                 foreach (var card in Hand.cards)
                 {
+                    MouseState mouseState = Mouse.GetState();
                     if (Hand.GetDrawingPosition(card).DrawPosition.Contains(mouseState.Position))
                     {
-                        if (mouseState.LeftButton != ButtonState.Pressed)
+                        if (!Game.LastMouseDown)
                             card.Highlighted = true;
                         else
+                        {
                             await card.Play();
+                            break;
+                        }
                     }
                     else
                         card.Highlighted = false;
@@ -83,7 +86,7 @@ namespace HandGames
                 switch (CurrentAlertScreen)
                 {
                     case AlertScreen.ChooseAPlayer:
-                        if (state.LeftButton == ButtonState.Pressed)
+                        if (Game.LastMouseDown)
                             foreach (var player in Game.players)
                             {
                                 if (player.IsHandmaided)
@@ -123,7 +126,7 @@ namespace HandGames
         public void Draw ()
         {
             Game.spriteBatch.Draw(Game.cardback, new Rectangle(Game.GraphicsDevice.Viewport.Width - 150 - Deck.cardWidth - 20, Game.GraphicsDevice.Viewport.Height - Deck.cardHeight, Deck.cardWidth, Deck.cardHeight), Color.Wheat);
-            foreach (var card in Game.discardPile.cards)
+            foreach (var card in new List<Card>(Game.discardPile.cards))
                 card.Draw();
             DrawHands();
             foreach (var run in highlights)
@@ -149,7 +152,7 @@ namespace HandGames
             for (int n = 0; n < Game.players.Count; n++)
             {
                 var player = Game.players[n];
-                foreach (var card in player.Hand.cards)
+                foreach (var card in new List<Card>(player.Hand.cards))
                     card.Draw();
             }
         }

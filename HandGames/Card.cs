@@ -61,6 +61,8 @@ namespace HandGames
 
         public async Task MoveCardTo (CardPool to)
         {
+            if (@in is Hand && to is DiscardPile)
+                await OnDiscard();
             Highlighted = false;
             var oldPos = @in.GetDrawingPosition(this);
             @in.Remove(this);
@@ -77,8 +79,6 @@ namespace HandGames
                 from = null;
                 oldLoc = null;
             }
-            if (@in is Hand && to is DiscardPile)
-                await OnDiscard();
         }
 
         TaskCompletionSource<object> animationDone;

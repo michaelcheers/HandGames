@@ -24,9 +24,9 @@ namespace HandGames
         public override async void OnTurnStart()
         {
             base.OnTurnStart();
-            await Hand.cards.OrderBy(v => ((Cards.LoveLetterCard)v).Value).First().Play();
+            await Hand.cards.OrderBy(v => ((Cards.LoveLetterCard)v).Value).ToList()[0].Play();
         }
         public override async Task<Player> TargetPlayer() =>
-            Game.players.OrderBy(v => v.IsHandmaided).ThenBy(v => v is AIPlayer).First();
+            Game.players.OrderBy(v => v.IsHandmaided).ThenBy(v => v is AIPlayer).ToList()[0];
     }
 }

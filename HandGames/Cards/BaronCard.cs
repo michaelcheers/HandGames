@@ -15,8 +15,10 @@ namespace HandGames.Cards
             Player
                 me = ((Hand)@in).player;
             var other = await ((Hand)@in).player.TargetPlayer(); //Workaround for #2931
-            var aCompare = ((LoveLetterCard)(other.Hand.cards[0])).Value;
-            var bCompare = ((LoveLetterCard)(me.Hand.cards[0])).Value; //Workaround for #2918.
+            await me.LookAtCards(other.Hand);
+            await other.LookAtCards(me.Hand);
+            var aCompare = ((LoveLetterCard)(other.Hand.cards.First(v => v != this))).Value;
+            var bCompare = ((LoveLetterCard)(me.Hand.cards.First(v => v != this))).Value; //Workaround for #2918.
             switch (aCompare.CompareTo(bCompare))
             {
                 case -1: // Good for me

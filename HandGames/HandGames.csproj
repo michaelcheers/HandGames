@@ -62,16 +62,7 @@
     <Compile Include="Pointer.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="New Bridge Stuff\Dictionary.cs" />
-    <Compile Include="LRCEngine\InputState.cs" />
-    <Compile Include="LRCEngine\JSONTable.cs" />
-    <Compile Include="LRCEngine\LRCEngine.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="LRCEngine\RichImage.cs" />
-    <Compile Include="LRCEngine\SplashSystem.cs" />
-    <Compile Include="LRCEngine\SpriteObject.cs" />
-    <Compile Include="LRCEngine\UIButton.cs" />
-    <Compile Include="LRCEngine\UIContainer.cs" />
-    <Compile Include="LRCEngine\Vectangle.cs" />
     <Compile Include="RealCardPool.cs" />
   </ItemGroup>
   <ItemGroup>

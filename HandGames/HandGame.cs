@@ -143,9 +143,16 @@ namespace HandGames
         protected override void Update(GameTime gameTime)
         {
             // TODO: Add your update logic here
-            ui.Update();
+            bool _holdingDown = Mouse.GetState().LeftButton == ButtonState.Pressed;
+            LastMouseDown = _holdingDown && !holdingDown;
+            holdingDown = _holdingDown;
+            if (won == null)
+                ui.Update();
             base.Update(gameTime);
         }
+
+        public bool LastMouseDown;
+        bool holdingDown;
 
         /// <summary>
         /// This is called when the game should draw itself.
@@ -157,11 +164,19 @@ namespace HandGames
 
             // TODO: Add your drawing code here
 
+#if WINDOWS
+            spriteBatch.Begin(blendState: BlendState.AlphaBlend);
+#else
             spriteBatch.Begin();
+#endif
             if (won == null)
                 ui.Draw();
             else
-                spriteBatch.DrawString(font, $"{won.GetType().Name} has won.", new Vector2(0, 0), Color.Red);
+            {
+                string text = $"{won.GetType().Name} has won.";
+                var measure = font.MeasureString(text);
+                spriteBatch.DrawString(font, text, new Vector2(y: (GraphicsDevice.Viewport.Height - measure.Y) / 2, x: (GraphicsDevice.Viewport.Width - measure.X) / 2), Color.Red);
+            }
             spriteBatch.End();
 
             base.Draw(gameTime);

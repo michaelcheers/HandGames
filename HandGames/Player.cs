@@ -29,8 +29,7 @@ namespace HandGames
             Player player;
             if (Game.players.Count(v => v.lost) == 1)
             {
-                Bridge.Html5.Global.Alert("A player has won.");
-                Bridge.Html5.Window.Close();
+                Game.won = Game.players.First(v => !v.lost);
                 return;
             }
             do
@@ -59,7 +58,7 @@ namespace HandGames
             {
                 var kingOrPrince = Hand.cards.FirstOrDefault(v => v is Cards.KingCard || v is Cards.PrinceCard);
                 if (kingOrPrince != null)
-                    await kingOrPrince.Play();
+                    await countess.Play();
             }
         }
     }
