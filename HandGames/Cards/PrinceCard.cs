@@ -13,8 +13,7 @@ namespace HandGames.Cards
         public override async Task OnPlay()
         {
             var @in = (await ((Hand)this.@in).player.TargetPlayer()).Hand;
-            foreach (var v in ((Hand)@in).cards)
-                await v.MoveCardTo(@in.Game.discardPile);
+            await ((Hand)@in).cards.First(v => v != this).MoveCardTo(@in.Game.discardPile);
             await @in.Game.TopCard().MoveCardTo(@in);
         }
     }

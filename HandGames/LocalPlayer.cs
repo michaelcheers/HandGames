@@ -46,6 +46,8 @@ namespace HandGames
             {AlertScreen.ViewCards, "You have 2 seconds to look at these cards." }
         };
 
+        public bool inLock;
+
         public async override Task<Texture2D> TargetCard()
         {
             CurrentAlertScreen = AlertScreen.NameACard;
@@ -63,21 +65,31 @@ namespace HandGames
                 return;
             if (CurrentAlertScreen == null)
             {
-                foreach (var card in Hand.cards)
+                if (!inLock)
                 {
-                    MouseState mouseState = Mouse.GetState();
-                    if (Hand.GetDrawingPosition(card).DrawPosition.Contains(mouseState.Position))
+                    Card played = null;
+                    foreach (var card in Hand.cards)
                     {
-                        if (!Game.LastMouseDown)
-                            card.Highlighted = true;
-                        else
+                        MouseState mouseState = Mouse.GetState();
+                        if (Hand.GetDrawingPosition(card).DrawPosition.Contains(mouseState.Position))
                         {
-                            await card.Play();
-                            break;
+                            if (!Game.LastMouseDown)
+                                card.Highlighted = true;
+                            else
+                            {
+                                played = card;
+                                break;
+                            }
                         }
+                        else
+                            card.Highlighted = false;
                     }
-                    else
-                        card.Highlighted = false;
+                    if (played != null)
+                    {
+                        inLock = true;
+                        await played.Play();
+                        inLock = false;
+                    }
                 }
             }
             else
