@@ -26,7 +26,7 @@ namespace HandGames
         }
         AlertScreen? CurrentAlertScreen;
 
-        public LocalPlayer(HandGame Game) : base(Game) { }
+        public LocalPlayer(HandGame Game) : base(Game) { referenceCard = Game.Content.Load<Texture2D>("Love Letter/reference card"); }
 
         public override async Task<Player> TargetPlayer()
         {
@@ -145,9 +145,14 @@ namespace HandGames
             handsViewable.Remove(other);
         }
 
+        public Texture2D referenceCard;
+
         public void Draw ()
         {
-            Game.spriteBatch.Draw(Game.cardback, new Rectangle(Game.GraphicsDevice.Viewport.Width - 150 - Deck.cardWidth - 20, Game.GraphicsDevice.Viewport.Height - Deck.cardHeight, Deck.cardWidth, Deck.cardHeight), Color.Wheat);
+            Game.spriteBatch.Draw(referenceCard, new Vector2(0, (Game.GraphicsDevice.Viewport.Height - referenceCard.Height) / 2), Color.White);
+            Game.spriteBatch.Draw(Game.cardback, new Rectangle(Game.GraphicsDevice.Viewport.Width - 150 - Deck.cardWidth - 20, Game.GraphicsDevice.Viewport.Height - Deck.cardHeight, Deck.cardWidth, Deck.cardHeight), Color.White);
+            foreach (var card in new List<Card>(Game.deck.cards))
+                card.Draw();
             foreach (var card in new List<Card>(Game.discardPile.cards))
                 card.Draw();
             foreach (var run in highlights)
@@ -199,6 +204,8 @@ namespace HandGames
                 }
                 else if (Game.players[Game.turnIdx] != player)
                     Game.spriteBatch.Draw(Game.rectangle, r, new Color(Color.White, .25f));
+                var measure = Game.font.MeasureString(player.affectionCounters.ToString());
+                Game.spriteBatch.DrawString(Game.font, player.affectionCounters.ToString(), r.Center.ToVector2() - measure / 2, Color.Black);
             }
         }
 
